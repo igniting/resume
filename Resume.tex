@@ -1,0 +1,183 @@
+% LaTeX CV
+
+\documentclass[10pt]{article}
+% Depends on:
+\usepackage{ifthen}
+\usepackage{geometry}
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage{marvosym}
+\usepackage{wasysym}
+\usepackage{enumitem}
+\usepackage{setspace}
+\usepackage{xcolor}
+\usepackage{tabularx}
+\usepackage{multirow}
+
+% Optionally remove page numbers:
+%\thispagestyle{empty}\pagestyle{empty}
+
+% No indent and increased paragraph spacing
+\setlength{\parindent}{0pt}
+
+% Configure margins:
+\geometry{top=0.5cm,bottom=0.5cm,left=0.5cm,right=0.5cm}
+
+% Commands
+% - \cvtitle{Name}{ColorForName}{SpaceBelow} - Creates the CV title
+\newcommand{\cvtitle}[2]{
+	{\Huge\textsc{#1}}\\[#2]
+}
+
+% - \positionedbox{TextSide}{Width}{TextContent} - Creates a box of given width with text aligned as specified by 'TextSide' of given width. Note if you use box sizes which are less that the width of the page they can wrap together , ie 2 boxes of size 0.5\textwidth will sit side by side
+\newcommand{\positionedbox}[3]{%
+	\begin{minipage}{#2}
+		\begin{flush#1}
+			#3
+		\end{flush#1}
+	\end{minipage}}
+
+% - \information{pieceofinfo}{pic/rightpic/space/none}{character} - Displays a piece of information pre/post-fixed with a 'character' symbol (pic), or leading space (space) or nothing (none).
+% characters: phone = \Telefon, letter = \Letter, email = \MVAt, URL = \Flatsteel, twitter = $\mathcal{T}$
+% NOTE: at the moment if you specify 'none' for the type, you still should put a non breaking space for 'character'
+\newcommand{\information}[3]{
+		\ifthenelse{\equal{#2}{pic}}
+			{#3}
+			{\ifthenelse{\equal{#2}{space}}
+				{~ ~ }
+				{}
+			}
+		#1\ifthenelse{\equal{#2}{rightpic}}
+			{~ #3}
+			{}
+		}
+
+% \cvheaderseperator{a}{b}{c}: Creates a horizontal rule separator where 'a' is the thickness, 'b' is the spacing above and 'c' is the spacing below.
+\newcommand{\cvheaderseperator}[3]{\\[#2]\rule{\linewidth}{#1}\\[#3]}
+
+% \cvskill{skill}{type}: Creates a 'skill' bullet. 'skill' is the actual skill text and 'type' is one of 'full', 'semi' or 'none' to indicate whether a full, half-full or empty bullet circle should be used. 
+\newcommand{\cvskill}[2]{\hspace{4mm}%
+	\ifthenelse{\equal{#2}{full}}%
+		{\CIRCLE~ }%
+		%else%
+		{\ifthenelse{\equal{#2}{semi}}%
+			{\LEFTcircle ~ }%
+			{\Circle ~ }}#1\\}
+
+% \cvsectiontitle{title}: Creates a section with the given title.
+\newcommand{\cvsectiontitle}[1]{
+    		\colorbox{gray!40}{%
+        \begin{minipage}{0.989\linewidth}%
+            \vspace*{1pt}%Space before
+            \large\indent\textbf{#1}
+            \vspace*{1pt}%Space after
+        \end{minipage}%
+   		}\\[1mm]
+		}
+
+% \cvpub{Authors}{Title}{Date}{Journal/Conference}{Pages}: Create a publication entry
+\newcommand{\cvpub}[5]{#1. (#3) ``#2'' \emph{#4}, pages #5} 
+
+% \cvcompany{Name}{Date}: A new company in the experience section
+\newcommand{\cvcompany}[2]{\textbf{#1}\hspace{\stretch{3}}{(#2)}}
+
+% \cvsublevel{Text}: Create an indented item list
+\newcommand{\cvsublevel}[1]{\begin{itemize}[leftmargin=0.5cm] #1\end{itemize}}
+
+% \cvsubbullet{Text}: Create a buller in the sub level
+\newcommand{\cvsubbullet}[1]{\vspace{-1mm}\item #1}
+
+% Modify List enviroment
+\renewcommand{\labelitemi}{\RIGHTarrow}
+\renewcommand{\labelitemii}{$\bullet$}
+\renewcommand{\labelitemiii}{\RIGHTarrow}
+\renewcommand{\labelitemiv}{\RIGHTarrow}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                    Content                                       %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\cvtitle{Anshu Avinash}{0.1cm}
+\information{+919005671853}{pic}{\Telefon}
+\hfill
+\information{anshuavi@iitk.ac.in, anshu.avinash35@gmail.com}{pic}{\MVAt}
+%
+\cvheaderseperator{0.1mm}{-0.1cm}{0.1mm}
+
+% Contents Go Here
+\vspace{-0.3cm}
+\cvsectiontitle{EDUCATION}
+\begin{tabularx}{\textwidth}{|llXl|}
+\hline
+\textbf{Year} 			& \textbf{Degree} 						& \textbf{Institution/Board} 						& \textbf{CPI/\%} \\ \hline
+\multirow{2}{*}{2015 (expected)} & \multirow{2}{*}{BTech-MTech Dual Degree (CSE)} & \multirow{2}{*}{IIT Kanpur} & PG: 9.6/10.0 \\ & & & UG: 9.1/10.0 \\
+2010 			& XII    						& KV ASC Center(S), Bangalore (CBSE)   	& 96.8\% \\
+2008 			& X      						& KV ASC Center(S), Bangalore (CBSE)   	& 98.2\% \\ \hline
+\end{tabularx}
+
+% Skill set
+\vspace{0.3cm}
+\cvsectiontitle{TECHNICAL SKILLS}
+\vspace{-0.6cm}
+\begin{itemize}[leftmargin=0.5cm]
+\item Programming Languages: C/C++, Java, Python, Haskell, Scala, SQL, JavaScript, CUDA
+\item Frameworks and Libraries: OpenCV, OpenMPI, AngularJS and AngularDart, Play, Drupal
+\item Tools and packages: \LaTeX, bash scripting, git, make, octave
+\end{itemize}
+
+\cvsectiontitle{INTERNSHIPS}
+\textbf{Self Tuning Optimizer in MariaDB} (\textbf{Google Summer of Code} \textit{, MariaDB, May-August 2014}) 
+\vspace{-0.2cm}
+\begin{itemize}
+	\item Replace the hard-coded constants/cost-factors in mysql server optimizer with self tuning coefficients.
+	\item Store and solve system of overdetermined sparse linear equations.
+\end{itemize}
+\textbf{Canary services for Facebook infrastructure} (\textbf{Facebook Inc.}\textit{, Menlo Park, CA, USA. May-July 2013})
+\vspace{-0.2cm}
+\begin{itemize}
+	\item Learn about existing tools that various teams in Facebook use for deploying canary services and consolidate them into a more generic framework.
+	\item Involved working with large scale distributed systems that stand at foundation of Facebook infrastructure.
+	\item The project involved several skill sets including: Advanced python coding, git, MySQL and Large scale distributed systems.
+\end{itemize}
+
+\cvsectiontitle{PROJECTS}
+\textbf{Distributed web application for IIT Kanpur}
+(\textit{Dean of Resources and Alumni, Dec 2012-present})
+\vspace{-0.2cm}
+\begin{itemize}
+	\item Using Angular Dart for frontend development, Scala and Titan database in backend, design a distributed web framework for IIT Kanpur.
+\end{itemize}
+\textbf{Detection of malicious nodes in unstructured P2P} (\textit{Topics in Distributed Networks, Aug-Nov 2013})
+\vspace{-0.2cm}
+\begin{itemize}
+	\item Implementation of Group Malicious Detection algorithm, similar to Too Late algorithm for detection of malicious peers in an unstructured P2P network using Java and PeerSim.
+\end{itemize}
+\textbf{Higher Order Functions in C++} (\textit{Topics in Object Oriented Language Implementation, Jan-April 2014})
+\vspace{-0.2cm}
+\begin{itemize}
+	\item Implement a type-safe framework of C++ class templates (called Functoid) for higher order functions.
+\end{itemize}
+\textbf{Browser-X: A simple browser written in Haskell} (\textit{Functional Programming, Jan-April 2013})
+\vspace{-0.2cm}
+\begin{itemize}
+	\item Implemented a basic browser in Haskell with both GUI and CLI using Network.HTTP, gtk, webkit and sqlite3.
+\end{itemize}
+
+\cvsectiontitle{SCHOLASTIC ACHIEVEMENTS}
+\vspace{-0.6cm}
+\begin{itemize}[leftmargin=0.5cm]
+\item Secured $2^{nd}$ position in Kendriya Vidyalaya Sanghatan (KVS) at national level in class X.
+\item Received Kishore Vaigyanik Protsahan Yogna (\textbf{KVPY}) scholarship in 2008.
+\item Received National Talent Search Exam (\textbf{NTSE}) scholarship in 2008.
+\item Attended International Mathematics Olympiad Training Camp (\textbf{IMO-TC}) organized at HBCSE, TIFR in 2009.
+\item Received \textbf{Academic Excellence Award} for year 2010-11 and 2011-12 at IIT Kanpur.
+\end{itemize}
+
+\cvsectiontitle{POSITIONS OF RESPONSIBILITY}
+\vspace{-0.6cm}
+\begin{itemize}[leftmargin=0.5cm]
+\item Coordinator, Programming Club (\textit{May 2012 - Mar 2013})
+\item Teaching Assistant for Algorithms II (\textit{Aug-Nov 2014})
+\item Teaching Assistant for Fundamentals of Computing (ESC101) (\textit{May-July 2014})
+\item Link Student, Counselling Service (\textit{2012-13})
+\end{itemize}
+\end{document}
